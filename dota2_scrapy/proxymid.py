@@ -1,8 +1,8 @@
 # coding: utf-8
 
-from scrapy import signals
 from dota2_scrapy.proxy import Proxy
 import logging
+
 
 class http_proxy_middlewares(object):
     def __init__(self):

@@ -1,13 +1,16 @@
 # coding: utf-8
 import scrapy
-from scrapy.loader import ItemLoader
 from dota2_scrapy.items import Dota2ScrapyItem
-import re
 import json
+
 
 class v5fox(scrapy.Spider):
     name = "v5fox"
-
+    custom_settings = {
+        "CONCURRENT_REQUESTS": 1,
+        "CONCURRENT_REQUESTS_PER_DOMAIN": 1,
+        "need_proxy": False
+    }
     allow_domains = ["v5fox.com"]
 
     def start_requests(self):
@@ -57,7 +60,9 @@ class v5fox(scrapy.Spider):
                 "pageSize": "10"
             }
 
-            yield scrapy.FormRequest(purchase_api, meta={"item": item, "page_num": page_num}, formdata=body, callback=self.get_purchase_prices)
+            yield scrapy.FormRequest(purchase_api,
+                                     meta={"item": item, "page_num": page_num},
+                                     formdata=body, callback=self.get_purchase_prices)
 
     def get_purchase_prices(self, response):
         item = response.meta["item"]

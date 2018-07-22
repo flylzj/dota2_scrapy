@@ -4,11 +4,9 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-import json
 from dota2_scrapy import settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from dota2_scrapy.db import igxe, wybuff, v5fox, c5game
 
 
 class Dota2ScrapyPipeline(object):
@@ -18,17 +16,24 @@ class Dota2ScrapyPipeline(object):
         engine = create_engine(mysql_uri, pool_size=100)
         self.Session = sessionmaker(bind=engine)
 
-
     def process_item(self, item, spider):
-
         item_type = item["item_type"]
         self.dom_info(item_type, item)
         return item
 
-
     def dom_info(self, item_type, item):
         session = self.Session()
         table = eval(item_type)
+        good = session.query(table).filter(table.item_id==item["item_id"]).first()
+        if good:
+            good.sale_prices = str(item["sale_prices"])
+            good.sale_count = item["sale_count"]
+            good.purchase_prices = str(item["purchase_prices"])
+            good.purchase_count = item["purchase_count"]
+            session.commit()
+            session.close()
+            return
+
         i = table(
             item_id=item["item_id"],
             item_name=item["item_name"],
@@ -41,4 +46,5 @@ class Dota2ScrapyPipeline(object):
         session.add(i)
         session.commit()
         session.close()
+        return
 
