@@ -8,6 +8,12 @@ import requests
 
 class c5game(scrapy.Spider):
     name = "c5game"
+    custom_settings = {
+        "CONCURRENT_REQUESTS": 1,
+        "CONCURRENT_REQUESTS_PER_DOMAIN": 1,
+        "need_proxy": False,
+        "DOWNLOAD_DELAY": 1.5,
+    }
 
     def start_requests(self):
         u = "https://www.c5game.com/dota.html?page={}"
@@ -39,12 +45,7 @@ class c5game(scrapy.Spider):
         headers = {
             "x-requested-with": "XMLHttpRequest"
         }
-        yield scrapy.Request(api, meta={"item": item, "page_num": page_num, "need_proxy": True, "api": api}, headers=headers, callback=self.get_sale_prices)
-        # item["sale_prices"] = "[]"
-        # item["sale_count"] = 0
-        # item["purchase_prices"] = "[]"
-        # item["purchase_count"] = 0
-        # yield item
+        yield scrapy.Request(api, meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": api}, headers=headers, callback=self.get_sale_prices)
 
     def get_sale_prices(self, response):
         headers = {
@@ -59,11 +60,11 @@ class c5game(scrapy.Spider):
             api_data = json.loads(response.body)
             if api_data.get("status") != 200:
                 yield scrapy.Request(response.url,
-                                     meta={"item": item, "page_num": page_num, "need_proxy": True, "api": response.url},
+                                     meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": response.url},
                                      headers=headers, callback=self.get_sale_prices)
         except Exception:
             yield scrapy.Request(response.url,
-                                 meta={"item": item, "page_num": page_num, "need_proxy": True, "api": response.url},
+                                 meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": response.url},
                                  headers=headers, callback=self.get_sale_prices)
         data = api_data.get("body")
         more = data.get("more")
@@ -74,13 +75,15 @@ class c5game(scrapy.Spider):
         if more == 1:
             page_num += 1
             api = "https://www.c5game.com/api/product/sale.json?id={}&page={}".format(item_id, page_num)
-            yield scrapy.Request(api, meta={"item": item, "page_num": page_num, "api": api, "need_proxy": True}, headers=headers, callback=self.get_sale_prices)
+            yield scrapy.Request(api,
+                                 meta={"item": item, "page_num": page_num, "api": api, "need_proxy": self.custom_settings.get("need_proxy")},
+                                 headers=headers, callback=self.get_sale_prices)
         elif more == 0:
             page_num = 1
             api = "https://www.c5game.com/api/product/purchase.json?id={}&page={}".format(item["item_id"], 1)
             item["sale_count"] = len(item["sale_prices"])
             yield scrapy.Request(response.url,
-                                 meta={"item": item, "page_num": page_num, "need_proxy": True, "api": api},
+                                 meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": api},
                                  headers=headers, callback=self.get_sale_prices)
 
     def get_purchase_prices(self, response):
@@ -96,11 +99,11 @@ class c5game(scrapy.Spider):
             api_data = json.loads(response.body)
             if api_data.get("status") != 200:
                 yield scrapy.Request(response.url,
-                                     meta={"item": item, "page_num": page_num, "need_proxy": True, "api": response.url},
+                                     meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": response.url},
                                      headers=headers, callback=self.get_purchase_prices)
         except Exception:
             yield scrapy.Request(response.url,
-                                 meta={"item": item, "page_num": page_num, "need_proxy": True, "api": response.url},
+                                 meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": response.url},
                                  headers=headers, callback=self.get_purchase_prices)
         data = api_data.get("body")
         more = data.get("more")
@@ -111,10 +114,10 @@ class c5game(scrapy.Spider):
         if more == 1:
             page_num += 1
             api = "https://www.c5game.com/api/product/purchase.json?id={}&page={}".format(item_id, page_num)
-            yield scrapy.Request(api, meta={"item": item, "page_num": page_num, "api": api, "need_proxy": True}, headers=headers, callback=self.get_purchase_prices)
+            yield scrapy.Request(api,
+                                 meta={"item": item, "page_num": page_num, "api": api, "need_proxy": self.custom_settings.get("need_proxy")},
+                                 headers=headers, callback=self.get_purchase_prices)
         elif more == 0:
-            page_num = 1
-            api = "https://www.c5game.com/api/product/purchase.json?id={}&page={}".format(item["item_id"], 1)
             item["purchase_count"] = len(item["purchase_prices"])
             yield item
 

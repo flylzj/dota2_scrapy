@@ -3,7 +3,6 @@
 import requests
 
 
-
 class Proxy(object):
     def __init__(self):
         self.url = "http://139.199.183.108:8000/"

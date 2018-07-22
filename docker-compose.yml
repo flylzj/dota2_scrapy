@@ -1,0 +1,17 @@
+version: '3'
+services:
+  v5fox:
+    image: dota2/scrapy
+    command: pyhon /app/dota2_scrapy/v5fox_run.py
+
+  igxe:
+    image: dota2/scrapy
+    command: pyhon /app/dota2_scrapy/igxe_run.py
+
+  wybuff:
+    image: dota2/scrapy
+    command: python /app/dota2_scrapy/wybuff_run.py
+
+  c5game:
+    image: dota2/scrapy
+    command: python /app/dota2_scrapy/c5game_run.py

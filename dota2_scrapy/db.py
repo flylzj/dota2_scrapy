@@ -2,8 +2,13 @@
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, Text
+from sqlalchemy.orm import sessionmaker
+from dota2_scrapy import settings
+from sqlalchemy import create_engine
 
-Base = declarative_base()
+engine = create_engine(settings.MYSQL_URI)
+Base = declarative_base(bind=engine)
+
 
 class igxe(Base):
 
@@ -17,6 +22,7 @@ class igxe(Base):
     purchase_prices = Column(Text, nullable=False, default="[]")
     purchase_count = Column(Integer, nullable=False, default=0)
 
+
 class c5game(Base):
 
     __tablename__ = "c5game"
@@ -28,6 +34,7 @@ class c5game(Base):
     sale_count = Column(Integer, nullable=False)
     purchase_prices = Column(Text, nullable=False)
     purchase_count = Column(Integer, nullable=False)
+
 
 class v5fox(Base):
 
@@ -53,3 +60,9 @@ class wybuff(Base):
     sale_count = Column(Integer, nullable=False)
     purchase_prices = Column(Text, nullable=False)
     purchase_count = Column(Integer, nullable=False)
+
+
+if __name__ == '__main__':
+
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
