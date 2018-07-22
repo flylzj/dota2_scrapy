@@ -17,6 +17,11 @@ MYSQL_PASSWORD = ""
 MYSQL_DB = ""
 ```
 
+## 初始化数据库
+```
+python3 db.py
+```
+
 ## 部署docker
 
 ```
