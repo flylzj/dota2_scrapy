@@ -7,6 +7,7 @@
 from dota2_scrapy import settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from dota2_scrapy.db import igxe, wybuff, v5fox, c5game
 
 
 class Dota2ScrapyPipeline(object):
