@@ -1,5 +1,6 @@
 # coding: utf-8
-
+import os, sys
+sys.path.append(os.getcwd())
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy.orm import sessionmaker
