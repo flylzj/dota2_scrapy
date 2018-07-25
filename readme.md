@@ -25,7 +25,7 @@ python3 db.py
 ## 部署docker
 
 ```
-sudo docker build -t dota2/scrapy
+sudo docker build -t dota2/scrapy .
 ```
 
 ## 运行
