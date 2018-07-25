@@ -56,7 +56,7 @@ class c5game(scrapy.Spider):
         page_num = response.meta["page_num"]
         if not item.get("sale_prices"):
             item["sale_prices"] = []
-        api_data = json.loads(response.body)
+        api_data = json.loads(response.text)
         try:
             if api_data.get("status") != 200:
                 yield scrapy.Request(response.url,
@@ -95,8 +95,9 @@ class c5game(scrapy.Spider):
         page_num = response.meta["page_num"]
         if not item.get("purchase_prices"):
             item["purchase_prices"] = []
+        api_data = json.loads(response.text)
         try:
-            api_data = json.loads(response.body)
+
             if api_data.get("status") != 200:
                 yield scrapy.Request(response.url,
                                      meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "api": response.url},
