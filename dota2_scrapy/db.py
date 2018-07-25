@@ -1,5 +1,6 @@
 # coding: utf-8
-
+import os, sys
+sys.path.append(os.getcwd())
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy.orm import sessionmaker
@@ -63,6 +64,6 @@ class wybuff(Base):
 
 
 if __name__ == '__main__':
-
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+    print("数据库初始化成功")
