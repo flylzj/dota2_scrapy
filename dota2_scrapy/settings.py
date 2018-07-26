@@ -5,10 +5,10 @@ BOT_NAME = 'dota2_scrapy'
 SPIDER_MODULES = ['dota2_scrapy.spiders']
 NEWSPIDER_MODULE = 'dota2_scrapy.spiders'
 FEED_EXPORT_ENCODING = 'utf-8'
-MYSQL_HOST = "gz-cdb-h25tz5ek.sql.tencentcdb.com:62581"
-MYSQL_USER = "dota2"
-MYSQL_PASSWORD = "qwer1234"
-MYSQL_DB = "dota2"
+MYSQL_HOST = ""
+MYSQL_USER = ""
+MYSQL_PASSWORD = ""
+MYSQL_DB = ""
 MYSQL_URI = "mysql+pymysql://{}:{}@{}/{}?charset=utf8".format(MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DB)
 
 ROBOTSTXT_OBEY = False

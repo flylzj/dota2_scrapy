@@ -12,7 +12,7 @@ class c5game(scrapy.Spider):
         "CONCURRENT_REQUESTS": 1,
         "CONCURRENT_REQUESTS_PER_DOMAIN": 1,
         "need_proxy": False,
-        "DOWNLOAD_DELAY": 1,
+        "DOWNLOAD_DELAY": 1.5,
     }
 
     def start_requests(self):
