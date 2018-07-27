@@ -9,10 +9,19 @@ import requests
 class c5game(scrapy.Spider):
     name = "c5game"
     custom_settings = {
-        "CONCURRENT_REQUESTS": 1,
+        "CONCURRENT_REQUESTS": 3,
         "CONCURRENT_REQUESTS_PER_DOMAIN": 1,
         "need_proxy": False,
-        "DOWNLOAD_DELAY": 1.5,
+        "DOWNLOAD_DELAY": 1,
+        "PROXY_MODE": 0,
+        "PROXY_LIST": "proxy.txt",
+        "RETRY_HTTP_CODES": [500, 503, 504, 400, 403, 404, 408, 429],
+        "RETRY_TIMES": 100,
+        "DOWNLOADER_MIDDLEWARES": {
+            'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
+            'scrapy_proxies.RandomProxy': 100,
+            'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+        }
     }
 
     def start_requests(self):
