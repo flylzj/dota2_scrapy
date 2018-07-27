@@ -43,7 +43,7 @@ class igxe(scrapy.Spider):
             yield scrapy.Request(response.url, meta={"item": item, "page_num": page_num, "need_proxy": self.custom_settings.get("need_proxy"), "dont_redirect": True, "api": response.url}, callback=self.get_sale_price)
         if not item.get("sale_prices"):
             item["sale_prices"] = []
-        api_data = json.loads(response.body)
+        api_data = json.loads(response.text)
         item["sale_count"] = api_data.get("page").get("total")
         data = api_data.get("d_list")
         if data:

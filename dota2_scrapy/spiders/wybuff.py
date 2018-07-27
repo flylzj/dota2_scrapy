@@ -48,7 +48,7 @@ class wybuff(scrapy.Spider):
             item["sale_prices"] = []
         page_num = response.meta["page_num"]
         try:
-            api_data = json.loads(response.body)
+            api_data = json.loads(response.text)
         except Exception:
             api_data = {}
             sale_api = "https://buff.163.com/api/market/goods/sell_order?game=dota2&goods_id={}&page_num={}".format(item["item_id"], page_num)
@@ -87,7 +87,7 @@ class wybuff(scrapy.Spider):
             item["purchase_prices"] = []
         page_num = response.meta["page_num"]
         try:
-            api_data = json.loads(response.body)
+            api_data = json.loads(response.text)
         except Exception:
             api_data = {}
         try:

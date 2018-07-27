@@ -7,8 +7,8 @@ import json
 class v5fox(scrapy.Spider):
     name = "v5fox"
     custom_settings = {
-        "CONCURRENT_REQUESTS": 1,
-        "CONCURRENT_REQUESTS_PER_DOMAIN": 1,
+        "CONCURRENT_REQUESTS": 10,
+        "CONCURRENT_REQUESTS_PER_DOMAIN": 10,
         "need_proxy": False
     }
     allow_domains = ["v5fox.com"]
@@ -36,7 +36,7 @@ class v5fox(scrapy.Spider):
         item = response.meta["item"]
         page_num = response.meta["page_num"]
 
-        api_data = json.loads(response.body)
+        api_data = json.loads(response.text)
         if not item.get("sale_prices"):
             item["sale_prices"] = []
             item["sale_count"] = api_data.get("totalCount")
@@ -68,7 +68,7 @@ class v5fox(scrapy.Spider):
         item = response.meta["item"]
         page_num = response.meta["page_num"]
 
-        api_data = json.loads(response.body)
+        api_data = json.loads(response.text)
         if not item.get("purchase_prices"):
             item["purchase_prices"] = []
             item["purchase_count"] = api_data.get("totalCount")
