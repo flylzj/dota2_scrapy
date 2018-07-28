@@ -15,7 +15,7 @@ class c5game(scrapy.Spider):
         "need_proxy": False,
         "DOWNLOAD_DELAY": 1,
         "PROXY_MODE": 0,
-        "PROXY_LIST": os.getcwd() + "/proxy.txt",
+        "PROXY_LIST": os.getcwd() + "/dota2_scrapy/proxy.txt",
         "RETRY_HTTP_CODES": [500, 503, 504, 400, 403, 404, 408, 429],
         "RETRY_TIMES": 100,
         "DOWNLOADER_MIDDLEWARES": {
