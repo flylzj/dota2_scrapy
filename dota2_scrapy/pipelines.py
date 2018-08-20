@@ -8,6 +8,7 @@ from dota2_scrapy import settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dota2_scrapy.db import igxe, wybuff, v5fox, c5game, history
+import json
 
 
 class Dota2ScrapyPipeline(object):
@@ -27,9 +28,9 @@ class Dota2ScrapyPipeline(object):
         table = eval(item_type)
         good = session.query(table).filter(table.item_id==item["item_id"]).first()
         if good:
-            good.sale_prices = str(item["sale_prices"])
+            good.sale_prices = json.dumps(item["sale_prices"])# str(item["sale_prices"])
             good.sale_count = item["sale_count"]
-            good.purchase_prices = str(item["purchase_prices"])
+            good.purchase_prices = json.dumps(item["purchase_prices"])# str(item["purchase_prices"])
             good.purchase_count = item["purchase_count"]
             session.commit()
             session.close()
@@ -39,9 +40,9 @@ class Dota2ScrapyPipeline(object):
             item_id=item["item_id"],
             item_name=item["item_name"],
             item_href=item["item_href"],
-            sale_prices=str(item["sale_prices"]),
+            sale_prices=json.dumps(item["sale_prices"]), # str(item["sale_prices"]),
             sale_count=item["sale_count"],
-            purchase_prices=str(item["purchase_prices"]),
+            purchase_prices=json.dumps(item["purchase_prices"]), # str(item["purchase_prices"]),
             purchase_count=item["purchase_count"]
         )
         session.add(i)
