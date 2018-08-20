@@ -2,7 +2,7 @@
 import os, sys
 sys.path.append(os.getcwd())
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, Text
+from sqlalchemy import Column, String, Integer, Text, Float, DateTime
 from sqlalchemy.orm import sessionmaker
 from dota2_scrapy import settings
 from sqlalchemy import create_engine
@@ -61,6 +61,16 @@ class wybuff(Base):
     sale_count = Column(Integer, nullable=False)
     purchase_prices = Column(Text, nullable=False)
     purchase_count = Column(Integer, nullable=False)
+
+
+class history(Base):
+    __tablename__ = "history"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    item_id = Column(Integer, nullable=False)
+    item_name = Column(String(64), nullable=False)
+    price = Column(Float)
+    deal_time = Column(DateTime)
 
 
 if __name__ == '__main__':

@@ -13,3 +13,9 @@ class Dota2ScrapyItem(scrapy.Item):
     purchase_count =scrapy.Field()
 
 
+class DotaHistory(scrapy.Item):
+    item_id = scrapy.Field()
+    item_name = scrapy.Field()
+    price = scrapy.Field()
+    deal_time = scrapy.Field()
+
